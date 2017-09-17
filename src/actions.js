@@ -28,3 +28,18 @@ export function removeTodo(todo){
     payload: todo
   }
 }
+
+
+export function toggleCompleted(todo){
+  return {
+    type: "TOGGLE_COMPLETED",
+    payload: todo
+  }
+}
+
+export function editTodo(todo){
+  return {
+    type: "EDIT_TODO",
+    payload: todo
+  }
+}

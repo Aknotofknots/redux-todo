@@ -1,43 +1,61 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; //To connect to our store
-import { addTodo, removeTodo } from '../actions'; //Our actions to dispatch
+import { addTodo, removeTodo, toggleCompleted, editTodo } from '../actions'; //Our actions to dispatch
 import '../styles/App.css';
 
 class App extends Component {
 
-  add = () => {
-    /* addTodo calls the dispatch function from props with our values
-     * generate a not so unique ID so we can keep track of the todo and remove it */ 
-    this.props.addTodo({
-      content: "Hey", 
-      id: Math.floor(Math.random() * 5) + 1   
-    })
+  /* We still need a local state for the input field, we don't
+   * need to have this state in the redux state, this can still be local */
+  state ={
+    value: ""
   }
 
-  remove = () => {
-    /* Lets just do math random until we are lucky enough to get the right ID,
-    * this is quality work, they are good devs brent. */
-    this.props.removeTodo({
-      content: "Hey",
-      id: Math.floor(Math.random() * 5) + 1   
+  add = () => {
+    //same as earlier, but grab the state from the input instead. Higher ID number
+    this.props.addTodo({
+      content: this.state.value,
+      id: Math.floor(Math.random() * 1000) + 1,
+      completed: false   
     })
+    //To clear the input
+    this.setState({value: ''});
   }
+
+  remove = (todo) => {
+    this.props.removeTodo(todo);
+  }
+
+  edit = (todo) => {
+    //Lets just reuse the input field, alright? This ain't a UX case, we 
+    //still good devs brent. Grab the whole todo, replace the content with
+    //the current value in the input field. Then dispatch
+    const editedTodo = Object.assign(todo, { content: this.state.value});
+    this.props.editTodo(editedTodo);
+  }
+
+  toggleCompleted = (todo) => {
+    this.props.toggleCompleted(todo);
+  }
+
+  onChange = e => this.setState({ [e.target.name]: e.target.value})
 
   render() {
     //Both state and our functions are stored in props, redux state is synced to props
-    console.log(this.props.todos)
+    const todoList = this.props.todos.map(todo => 
+      <div key={todo.id}>
+        <p>{ todo.content }</p>
+        <p>{ todo.completed ? "Completed" : "Not Completed" } </p>
+        <button className="button" onClick={() => this.remove(todo)} > Remove Todo </button> 
+        <button className="button" onClick={() => this.toggleCompleted(todo)}> Toggle completed </button>
+        <button className="button" onClick={() => this.edit(todo)}> Edit Todo </button>
+      </div>
+      )
     return (
       <div className="App">
-        <button 
-            className="button"
-            onClick={this.add}> 
-            Add 
-        </button>
-        <button 
-            className="button"
-            onClick={this.remove}> 
-            Remove
-        </button>
+        <input type="text" onChange={this.onChange} name="value" value={this.state.value} />
+        <button className="button" onClick={this.add}> Add Todo </button>
+        { todoList }
       </div>
     );
   }
@@ -54,7 +72,9 @@ class App extends Component {
 function mapDispatchToProps(dispatch){
   return{
     addTodo: todo => dispatch(addTodo(todo)),
-    removeTodo: todo => dispatch(removeTodo(todo))
+    removeTodo: todo => dispatch(removeTodo(todo)),
+    toggleCompleted: todo => dispatch(toggleCompleted(todo)),
+    editTodo: todo => dispatch(editTodo(todo))
   }
 }
 
