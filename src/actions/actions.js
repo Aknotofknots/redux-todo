@@ -43,3 +43,24 @@ export function editTodo(todo){
     payload: todo
   }
 }
+
+
+
+
+
+
+export function addMovies(){
+  return function(dispatch){
+    return fetch('https://fend-api.herokuapp.com/movies?_limit=20')
+      .then(res => res.json())
+      .then(movies => {
+        return dispatch({
+          type: "ADD_MOVIES",
+          movies
+        })
+    })
+    .catch(error => {
+      dispatch({type: "FETCH_ERROR", error: error.message})
+    })
+  }
+}
