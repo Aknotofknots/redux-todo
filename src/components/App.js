@@ -18,9 +18,6 @@ class App extends Component {
   }
 
 
-
-
-
   add = () => {
     this.props.actions.postTodo({
       text: this.state.value,
@@ -29,9 +26,6 @@ class App extends Component {
     })
     this.setState({value: ''});
   }
-
-
-
 
   remove = (todo) => {
     this.props.removeTodo(todo);
