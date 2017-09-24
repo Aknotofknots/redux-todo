@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; //To connect to our store
-import { addTodo, removeTodo, toggleCompleted, editTodo } from '../actions'; //Our actions to dispatch
+import { 
+  addTodo,
+  removeTodo,
+  toggleCompleted,
+  editTodo 
+} from '../actions/actions'; //Our actions to dispatch
 import '../styles/App.css';
 
 class App extends Component {
@@ -88,7 +93,7 @@ function mapDispatchToProps(dispatch){
  */
 function mapStateToProps(state){
   return {
-    todos: state
+    todos: state.todos
   }
 }
 /**

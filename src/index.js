@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux'; //Create store
 import { Provider } from 'react-redux'; //Provider Component
-import todos from './reducer'; //Import our only reducer
 import App from './components/App'; //Import our App
-const store = createStore(todos) //Create store with reducer
+import store from './store';
 
 
 /**
