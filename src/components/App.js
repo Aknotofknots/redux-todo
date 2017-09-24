@@ -18,16 +18,20 @@ class App extends Component {
   }
 
 
+
+
+
   add = () => {
-    //same as earlier, but grab the state from the input instead. Higher ID number
-    this.props.addTodo({
-      content: this.state.value,
+    this.props.actions.postTodo({
+      text: this.state.value,
       id: Math.floor(Math.random() * 1000) + 1,
       completed: false   
     })
-    //To clear the input
     this.setState({value: ''});
   }
+
+
+
 
   remove = (todo) => {
     this.props.removeTodo(todo);
@@ -48,11 +52,10 @@ class App extends Component {
   onChange = e => this.setState({ [e.target.name]: e.target.value})
 
   render() {
-    console.log(this.props.error, this.props.movies);
     //Both state and our functions are stored in props, redux state is synced to props
     const todoList = this.props.todos.map(todo => 
       <div key={todo.id}>
-        <p>{ todo.content }</p>
+        <p>{ todo.text }</p>
         <p>{ todo.completed ? "Completed" : "Not Completed" } </p>
         <button className="button" onClick={() => this.remove(todo)} > Remove Todo </button> 
         <button className="button" onClick={() => this.toggleCompleted(todo)}> Toggle completed </button>

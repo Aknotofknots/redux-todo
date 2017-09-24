@@ -64,3 +64,19 @@ export function addMovies(){
     })
   }
 }
+
+export function postTodo(todo){
+  return function(dispatch){
+    fetch("https://fend-api.herokuapp.com/notes", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },  
+      body: JSON.stringify(todo)
+  })
+  .then(res => res.json())
+  .then(json => dispatch(addTodo(todo)))
+  .catch(error => console.log(error))
+  }
+}
