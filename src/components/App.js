@@ -1,67 +1,57 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'; //To connect to our store
-import { addTodo, removeTodo } from '../actions'; //Our actions to dispatch
-import '../styles/App.css';
+import React, { Component } from "react";
+import List from "./List";
+import Header from "./Header";
+import { connect } from "react-redux"; //To connect to our store
+import { addTodo, removeTodo } from "../actions"; //Our actions to dispatch
+import "../styles/App.css";
 
 class App extends Component {
-
-  state =  {
+  state = {
     todoValue: ""
-  }
-  
-  componentDidMount() {
+  };
 
-  }
-
-  handleInput = (e) => {
-    
+  handleInput = e => {
     this.setState({
-        [e.target.name]: e.target.value
-      })
-  }
+      [e.target.name]: e.target.value
+    });
+  };
 
   add = () => {
-
-    const {todoValue} = this.state;
+    const { todoValue } = this.state;
 
     /* addTodo calls the dispatch function from props with our values
-     * generate a not so unique ID so we can keep track of the todo and remove it */ 
+     * generate a not so unique ID so we can keep track of the todo and remove it */
 
     this.props.addTodo({
       content: todoValue,
-      id: Math.floor(Math.random() * 5) + 1   
-    })
-  }
+      id: Math.floor(Math.random() * 5) + 1
+    });
+  };
 
-  remove = () => {
+  remove = e => {
     /* Lets just do math random until we are lucky enough to get the right ID,
     * this is quality work, they are good devs brent. */
+
     this.props.removeTodo({
-      content: "Hey",
-      id: Math.floor(Math.random() * 5) + 1   
-    })
-  }
+      content: "adawd",
+      id: Math.floor(Math.random() * 5) + 1
+    });
+  };
 
   render() {
     //Both state and our functions are stored in props, redux state is synced to props
-    console.log(this.props.todos)
-    console.log(this.state)
+    console.log(this.props.store);
 
     return (
       <div className="App">
-
-        <input onChange={this.handleInput} type="text" name="todoValue"/>
-       
-        <button 
-            className="button"
-            onClick={this.add}> 
-            Add 
-        </button>
-        <button 
-            className="button"
-            onClick={this.remove}> 
-            Remove
-        </button>
+        <Header />
+        <input onChange={this.handleInput} type="text" name="todoValue" />
+        <div>
+          <button className="button" onClick={this.add}>
+            Add
+          </button>
+        </div>
+        <List />
       </div>
     );
   }
@@ -75,11 +65,11 @@ class App extends Component {
  * is what we are actually saying 
  * @param {Function} dispatch 
  */
-function mapDispatchToProps(dispatch){
-  return{
+function mapDispatchToProps(dispatch) {
+  return {
     addTodo: todo => dispatch(addTodo(todo)),
     removeTodo: todo => dispatch(removeTodo(todo))
-  }
+  };
 }
 
 /**
@@ -90,10 +80,10 @@ function mapDispatchToProps(dispatch){
  * we can choose here which parts of the state should be exposed to this component
  * @param {Object} state 
  */
-function mapStateToProps(state){
+function mapStateToProps(state) {
   return {
     todos: state
-  }
+  };
 }
 /**
  * We then use `connect` and pass along our two helper functions: 

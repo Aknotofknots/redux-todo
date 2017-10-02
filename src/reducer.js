@@ -1,4 +1,3 @@
-
 /**
  * Our only state is an array of todos, so the default value should be 
  * empty array, or else it will be undefined, and we do not want that.
@@ -9,10 +8,8 @@
  * @param {Object} action 
  * @return {Object}
  */
-export default function todos(state = [], action){
-  
-  switch(action.type){
-
+export default function todos(state = [], action) {
+  switch (action.type) {
     case "ADD_TODO":
       //action.payload === todo
       return [...state, action.payload];
@@ -22,7 +19,7 @@ export default function todos(state = [], action){
       //id we want to remove. check if the passed todo in payload
       //matches the one in state. Filter always returns a new array.
       let id = action.payload.id;
-      return state.filter(todo => todo.id !== id)
+      return state.filter(todo => todo.id !== id);
     default:
       return state;
   }
