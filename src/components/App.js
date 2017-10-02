@@ -5,11 +5,30 @@ import '../styles/App.css';
 
 class App extends Component {
 
+  state =  {
+    todoValue: ""
+  }
+  
+  componentDidMount() {
+
+  }
+
+  handleInput = (e) => {
+    
+    this.setState({
+        [e.target.name]: e.target.value
+      })
+  }
+
   add = () => {
+
+    const {todoValue} = this.state;
+
     /* addTodo calls the dispatch function from props with our values
      * generate a not so unique ID so we can keep track of the todo and remove it */ 
+
     this.props.addTodo({
-      content: "Hey", 
+      content: todoValue,
       id: Math.floor(Math.random() * 5) + 1   
     })
   }
@@ -26,8 +45,13 @@ class App extends Component {
   render() {
     //Both state and our functions are stored in props, redux state is synced to props
     console.log(this.props.todos)
+    console.log(this.state)
+
     return (
       <div className="App">
+
+        <input onChange={this.handleInput} type="text" name="todoValue"/>
+       
         <button 
             className="button"
             onClick={this.add}> 

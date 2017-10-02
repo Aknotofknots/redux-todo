@@ -10,15 +10,19 @@
  * @return {Object}
  */
 export default function todos(state = [], action){
+  
   switch(action.type){
+
     case "ADD_TODO":
       //action.payload === todo
       return [...state, action.payload];
+
     case "REMOVE_TODO":
       //Return every object in the state except the one with the
       //id we want to remove. check if the passed todo in payload
       //matches the one in state. Filter always returns a new array.
-      return state.filter(todo => todo.id !== action.payload.id)
+      let id = action.payload.id;
+      return state.filter(todo => todo.id !== id)
     default:
       return state;
   }
